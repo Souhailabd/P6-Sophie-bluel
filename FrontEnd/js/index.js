@@ -19,6 +19,7 @@ async function getWorks() {
   }
 }
 
+
 async function displayWorks() {
   try {
     const dataworks = await getWorks();
