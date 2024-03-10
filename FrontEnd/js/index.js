@@ -33,9 +33,17 @@ async function displayWorks() {
 }
 
 function createWorks(works) {
-  const workElement = document.createElement('div');
-  workElement.innerHTML = `
-    <p> ${works.title}</p>
-    <img src="${works.imageUrl}" alt="${works.title}">`;
-  gallery.appendChild(workElement);
+    const figure = document.createElement("figure")
+    const img = document.createElement("img")
+    const figcaption = document.createElement("figcaption")
+
+    img.src = works.imageUrl;
+    figcaption.innerText = works.title;
+    figure.setAttribute("categorieId", works.category.id);
+
+    figure.appendChild(img);
+    figure.appendChild(figcaption);
+    gallery.appendChild(figure);
+
+ 
 }
