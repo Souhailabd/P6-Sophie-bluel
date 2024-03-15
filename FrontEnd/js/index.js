@@ -3,7 +3,6 @@ const filtres = document.querySelector("filtres")
 
 async function main() {
   await displayWorks();
-  await diplayFiltres();
 }
 
 main();
@@ -49,3 +48,49 @@ function createWorks(works) {
 
  
 }
+
+async function getCategories(){
+  try {
+    const categoriesResponse = await fetch("http://localhost:5678/api/categories")
+    return await categoriesResponse.json();
+  } catch (error) {
+    console.log("Erreur lors de la récupération des catégories depuis l'API");
+  };
+};
+
+async function displayFiltres() {
+  try {
+      const dataCategories = await getCategories(); // Récupération des catégories depuis l'API
+      const filtresContainer = document.querySelector(".filtres"); // Sélection du conteneur des filtres dans le HTML
+
+      // Parcours des catégories récupérées et création des boutons de filtre
+      dataCategories.forEach((category) => {
+          const btnCategorie = document.createElement("button");
+          btnCategorie.innerText = category.name;
+          btnCategorie.classList.add("filterButton"); // Ajout de la classe de base
+          btnCategorie.setAttribute("buttonId", category.id);
+
+          // Gestion de la classe active pour le premier bouton
+          if (category.isActive) {
+              btnCategorie.classList.add("filterButtonActive");
+          }
+
+          // Ajout d'un gestionnaire d'événement au clic pour activer/désactiver les boutons
+          btnCategorie.addEventListener("click", function() {
+              // Supprimer la classe active de tous les boutons
+              document.querySelectorAll(".filterButton").forEach((btn) => {
+                  btn.classList.remove("filterButtonActive");
+              });
+              // Ajouter la classe active uniquement au bouton actuel
+              this.classList.add("filterButtonActive");
+          });
+
+          filtresContainer.appendChild(btnCategorie);
+      });
+  } catch (error) {
+      console.log("Erreur lors de l'affichage des filtres :", error);
+  }
+}
+
+displayFiltres();
+
