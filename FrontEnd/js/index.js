@@ -1,5 +1,6 @@
 const gallery = document.querySelector(".gallery");
-const filtres = document.querySelector("filtres")
+const filtres = document.querySelector(".filtres");
+
 
 async function main() {
   await displayWorks();
@@ -15,22 +16,27 @@ async function getWorks() {
     }
     return worksResponse.json();
   } catch (error) {
-    console.log("Erreur lors de la récupération des projets depuis l'API :");
+    console.log("Erreur lors de la récupération des projets depuis l'API :" + error);
     
   }
 }
 
 
-async function displayWorks() {
+async function displayWorks(categorieId) {
   try {
     const dataworks = await getWorks();
     gallery.innerHTML = "";
+    
     dataworks.forEach((works) => {
-      createWorks(works);
+      if ( categorieId == works.category.id || categorieId == null) {
+        createWorks(works);
+        
+      }
+      
     });
-  } catch (error) {
-    console.log("Erreur lors de l'affichage des projets :");
-  }
+  }catch (error) {
+    console.log("Erreur lors de l'affichage des projets :", error);
+}
 }
 
 function createWorks(works) {
@@ -54,43 +60,33 @@ async function getCategories(){
     const categoriesResponse = await fetch("http://localhost:5678/api/categories")
     return await categoriesResponse.json();
   } catch (error) {
-    console.log("Erreur lors de la récupération des catégories depuis l'API");
+    console.log("Erreur lors de la récupération des catégories depuis l'API" );
   };
 };
 
 async function displayFiltres() {
-  try {
-      const dataCategories = await getCategories(); // Récupération des catégories depuis l'API
-      const filtresContainer = document.querySelector(".filtres"); // Sélection du conteneur des filtres dans le HTML
 
-      // Parcours des catégories récupérées et création des boutons de filtre
+  const dataCategories = await getCategories();
+  
+     
       dataCategories.forEach((category) => {
           const btnCategorie = document.createElement("button");
           btnCategorie.innerText = category.name;
-          btnCategorie.classList.add("filterButton"); // Ajout de la classe de base
+          btnCategorie.classList.add("filterButton"); 
           btnCategorie.setAttribute("buttonId", category.id);
-
-          // Gestion de la classe active pour le premier bouton
-          if (category.isActive) {
-              btnCategorie.classList.add("filterButtonActive");
-          }
-
-          // Ajout d'un gestionnaire d'événement au clic pour activer/désactiver les boutons
-          btnCategorie.addEventListener("click", function() {
-              // Supprimer la classe active de tous les boutons
-              document.querySelectorAll(".filterButton").forEach((btn) => {
-                  btn.classList.remove("filterButtonActive");
-              });
-              // Ajouter la classe active uniquement au bouton actuel
-              this.classList.add("filterButtonActive");
-          });
-
-          filtresContainer.appendChild(btnCategorie);
+          filtres.appendChild(btnCategorie);
       });
-  } catch (error) {
-      console.log("Erreur lors de l'affichage des filtres :", error);
-  }
-}
+
+      const buttons = document.querySelectorAll(".filtres button");
+      buttons.forEach((button) => {
+        button.addEventListener("click",function(){
+          let categorieId = button.getAttribute("buttonId");
+          buttons.forEach((button) => button.classList.remove("filterButtonActive"));
+          this.classList.add("filterButtonActive");
+          displayWorks(categorieId);
+        })
+      })
+    }
 
 displayFiltres();
 
