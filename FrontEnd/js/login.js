@@ -21,7 +21,7 @@ async function login() {
             const data = await response.json();
             const userdata = data.token;
             localStorage.setItem('user', userdata);
-            document.location.href = "index.html"; // Redirection vers la page d'accueil
+            document.location.href = "edit.html"; // Redirection vers la page d'accueil
         } else {
             document.querySelector(".error").innerHTML = "Erreur dans l’identifiant ou le mot de passe";
         }

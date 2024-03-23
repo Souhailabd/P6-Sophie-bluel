@@ -2,6 +2,7 @@ const gallery = document.querySelector(".gallery");
 const filtres = document.querySelector(".filtres");
 
 
+
 async function main() {
   await displayWorks();
 }
@@ -89,4 +90,7 @@ async function displayFiltres() {
     }
 
 displayFiltres();
+
+
+
 
