@@ -11,16 +11,19 @@
 		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
+	
 	<header>
+		
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<li><a href="./login.html" class="login">login</a></li>
+				<li class="loginAdmin"><a href="./login.html" class="login">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -42,7 +45,22 @@
 			</article>
 		</section>
 		<section id="portfolio">
+			<div class="modify">
 			<h2>Mes Projets</h2>
+					<i class="fa-solid fa-pen-to-square"></i>
+				  <a href="#modal1" class="js-modal">modifier</a>
+
+				  <aside id="modal1" class="modal" aria-hidden="true" role="modal" aria-modal="false" style="display: none;">
+					<div class="modal-wrapper">
+						<i class="fa-solid fa-xmark js-modal-close"></i>
+					<h3>Galerie photo</h3>
+					<button>ajouter une photo</button>
+				  </aside>
+				</div>
+				</div>
+			  
+			
+			  
 			<div class="filtres">
 				<button class="filterButton filterButtonActive">Tous</button>
 			</div>

@@ -3,8 +3,8 @@ async function login() {
     const passwordLogin = document.getElementById("password").value;
   
     const user = {
-      email: emailLogin,
-      password: passwordLogin,
+        email: emailLogin,
+        password: passwordLogin,
     };
   
     try {
@@ -20,8 +20,9 @@ async function login() {
         if (response.ok) {
             const data = await response.json();
             const userdata = data.token;
-            localStorage.setItem('user', userdata);
-            document.location.href = "edit.html"; // Redirection vers la page d'accueil
+            sessionStorage.setItem('token', userdata); // Correction de la faute de frappe ici
+            document.location.href = "index.html"; // Redirection vers la page d'accueil
+
         } else {
             document.querySelector(".error").innerHTML = "Erreur dans l’identifiant ou le mot de passe";
         }
@@ -30,9 +31,8 @@ async function login() {
         // Gérez les erreurs de connexion ici
     }
 }
-  
-const btnForm = document.querySelector(".connexion");
-btnForm.addEventListener("submit", (e) => {
+
+document.querySelector("form").addEventListener("submit", (e) => { // Modification de la cible de l'écouteur d'événement
     e.preventDefault();
     login();
 });
