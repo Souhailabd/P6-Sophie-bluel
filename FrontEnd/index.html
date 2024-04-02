@@ -15,9 +15,9 @@
 </head>
 
 <body>
-	
+
 	<header>
-		
+
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
@@ -45,22 +45,27 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<div class="modify">
-			<h2>Mes Projets</h2>
+			<div class="portfolio-header">
+				<h2>Mes Projets</h2>
+				<div class="modify">
 					<i class="fa-solid fa-pen-to-square"></i>
-				  <a href="#modal1" class="js-modal">modifier</a>
+					<a href="#modal1" class="js-modal">modifier</a>
+				</div>
+			</div>
+			<aside id="modal1" class="modal" aria-hidden="true" role="modal" aria-modal="false" style="display: none;">
+				<div class="modal-wrapper">
+					<i class="fa-solid fa-xmark js-modal-close"></i>
+					<div class="modal-header">
+					<h3 class="gallery-modal">Galerie photo</h3>
+				</div>
+					<div class="add-photo-modal">
+					<button id="ajouterPhotoBtn">Ajouter une photo</button>
+					</div>
+				</div>
+			</aside>
 
-				  <aside id="modal1" class="modal" aria-hidden="true" role="modal" aria-modal="false" style="display: none;">
-					<div class="modal-wrapper">
-						<i class="fa-solid fa-xmark js-modal-close"></i>
-					<h3>Galerie photo</h3>
-					<button>ajouter une photo</button>
-				  </aside>
-				</div>
-				</div>
-			  
-			
-			  
+
+
 			<div class="filtres">
 				<button class="filterButton filterButtonActive">Tous</button>
 			</div>

@@ -1,3 +1,11 @@
+const formLogin = document.querySelector("form");
+
+
+formLogin.addEventListener("submit", (e) => { // Modification de la cible de l'écouteur d'événement
+    e.preventDefault();
+    login();
+});
+
 async function login() {
     const emailLogin = document.getElementById("email").value;
     const passwordLogin = document.getElementById("password").value;
@@ -29,6 +37,7 @@ async function login() {
     } catch (error) {
         console.error("Erreur lors de la connexion :", error);
         // Gérez les erreurs de connexion ici
+        document.querySelector(".error").innerHTML = "Probléme technique , veuillez réessayer ultérieurement";
     }
 }
 
