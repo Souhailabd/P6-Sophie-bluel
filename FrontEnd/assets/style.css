@@ -523,7 +523,7 @@ button[buttonId="3"] {
 
 .js-modal-close {
     position: absolute;
-	top: 35px;
+	top: 45px;
 	right: 30%;
 	cursor: pointer;
 }

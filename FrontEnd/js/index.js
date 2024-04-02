@@ -164,11 +164,10 @@ function adminDisplay() {
  
  }
  
- document.querySelectorAll('.js-modal').forEach(a => {
-   a.addEventListener('click' ,openModal)
+ document.querySelector('.js-modal').addEventListener('click' ,openModal)
    
- })
- ;
+ 
+ 
  
 
 
