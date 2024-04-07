@@ -468,6 +468,10 @@ button[buttonId="3"] {
 	gap: 10px;
 }
 
+.js-modal {
+	text-decoration: none;
+	color: #000;
+}
 
 .modal {
 	position: fixed;
@@ -537,5 +541,49 @@ button[buttonId="3"] {
 	font-weight: 400;
 	color: #000;
 	text-align: center;
+
+}
+
+.gallery-modal {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-gap: 15px;
+
+
+}
+
+.gallery-modal img {
+	width: 100%;
+	height: auto;
+
+
+}
+
+.image-container {
+	position: relative;
+	display: inline-block;
+
+}
+
+.image-container img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+
+
+}
+
+.fa-trash-can {
+	position: absolute;
+	top: 10%;
+	right: 15%;
+	transform: translate(50%, -50%);
+	color: #FFF;
+	background-color: black;
+	width: 17px;
+	height: 20px;
+	flex-shrink: 0;
+	border-radius: 10%;
+    cursor: pointer;
 
 }

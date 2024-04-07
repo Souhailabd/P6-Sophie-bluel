@@ -92,6 +92,8 @@ function admin() {
   if (admintoken) {
     logout(); // Déconnexion si l'utilisateur est administrateur
     adminDisplay(); // Affichage du mode édition
+    gestionModal();
+    displayWorksModal();
   }
 }
 
@@ -110,10 +112,12 @@ function logout() {
 function adminDisplay() {
   const banner = document.createElement("div");
   banner.classList.add("banner", "visibleBanner");
+  
 
   const icon = document.createElement("i");
   icon.classList.add("fa-solid", "fa-pen-to-square");
   icon.style.color = "white";
+
 
   const title = document.createElement("h2");
   title.textContent = "Mode édition";
@@ -141,16 +145,18 @@ function adminDisplay() {
  let modal = null
 
  const openModal = function (e) {
-   e.preventDefault ()
- const target =document.querySelector (e.target.getAttribute('href'))
- target.style.display = null
- target.removeAttribute ('aria-hidden')
- target.setAttribute('aria-modal' , 'true')
- modal = target
- modal.addEventListener ('click' , closeModal)
- modal.querySelector('.js-modal-close').addEventListener('click' , closeModal)
- 
- }
+  e.preventDefault ()
+const target =document.querySelector (e.target.getAttribute('href'))
+target.style.display = null
+target.removeAttribute ('aria-hidden')
+target.setAttribute('aria-modal' , 'true')
+modal = target
+modal.addEventListener ('click' , closeModal)
+modal.querySelector('.js-modal-close').addEventListener('click' , closeModal)
+ // Affiche les projets dans la modal lorsque celle-ci est ouverte
+
+}
+
  
  const closeModal = function (e) {
    if (modal === null) return
@@ -164,13 +170,52 @@ function adminDisplay() {
  
  }
  
- document.querySelector('.js-modal').addEventListener('click' ,openModal)
+ function gestionModal() {
+  document.querySelector('.js-modal').addEventListener('click' ,openModal)
+ }
+
+
    
- 
- 
- 
+ // Fonction pour générer le contenu de la modal avec les projets récupérés
+async function displayWorksModal() {
+  try {
+    const dataWorks = await getWorks(); // Récupère les projets
+    const galleryModal = document.querySelector(".gallery-modal"); // Sélectionne le contenu de la modal
 
+    // Vide le contenu de la modal avant d'ajouter de nouveaux projets
+    galleryModal.innerHTML = "";
 
+    // Ajoute chaque projet à la modal
+    dataWorks.forEach((works) => {
+
+      // Crée un conteneur pour l'image et l'icône de suppression
+      const container = document.createElement("div"); // Crée un élément div qui va contenir le projet
+      container.classList.add("image-container"); // Associe une class au div pour styliser ce dernier
+      
+      // Crée l'élément img pour l'image
+      const img = document.createElement("img");
+      img.src = works.imageUrl; // Définit la source de l'image
+      container.appendChild(img); // Ajoute l'image au conteneur
+
+      const deleteIcon = document.createElement("i"); // Crée l'icone de suppression
+      deleteIcon.classList.add("fa-solid", "fa-trash-can");
+      
+      deleteIcon.setAttribute("aria-hidden", "true");
+      deleteIcon.addEventListener("click", async () => {
+        await deleteItem(works.id); // Supprime le projet en fonction de son ID dans la base de données 
+        displayWorksModal(); // Rafraîchit la modal après la suppression
+      });
+      container.appendChild(deleteIcon); // Ajoute l'icone de suppression au conteneur
+      galleryModal.appendChild(container); // Ajoute le conteneur (avec l'image et l'icone) à la modal
+    });
+  } catch (error) {
+    console.log("Erreur lors de l'affichage des projets dans la modal :", error);
+  }
+}
+
+ 
+ 
+  
 
 
 
