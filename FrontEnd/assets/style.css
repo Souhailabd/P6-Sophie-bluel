@@ -514,6 +514,7 @@ button[buttonId="3"] {
 .image-container {
   position: relative;
   display: inline-block;
+  
 }
 .image-container img {
   display: block;
@@ -524,7 +525,7 @@ button[buttonId="3"] {
 .fa-trash-can {
   position: absolute;
   top: 10%;
-  right: 10%;
+  right: 13%;
   transform: translate(50%, -50%);
   color: #fff;
   background-color: black;
@@ -535,6 +536,14 @@ button[buttonId="3"] {
   cursor: pointer;
   padding: 2px;
   background-position: center;
-  width: 11%;
+  width: 13%;
   height: 10%;
+}
+.back-icon {
+  position: absolute;
+  top: 20px; 
+  left: 20px; 
+  z-index: 1000; 
+  cursor: pointer; 
+  font-size: 20px;
 }

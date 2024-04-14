@@ -100,7 +100,7 @@ function admin() {
     adminDisplay(); // Affichage du mode édition
     gestionModal();
     displayWorksModal();
-    deleteWorks();
+   
   }
 }
 
@@ -247,8 +247,8 @@ async function displayWorksModal() {
         await deleteWorks(works.id); // Supprime le projet en fonction de son ID dans la base de données
         displayWorksModal(); // Rafraîchit la modal après la suppression
       });
-      container.appendChild(deleteIcon); // Ajoute l'icone de suppression au conteneur
-      galleryModal.appendChild(container); // Ajoute le conteneur (avec l'image et l'icone) à la modal
+      container.appendChild(deleteIcon); //  l'icone de suppression au conteneur
+      galleryModal.appendChild(container); // le conteneur (avec l'image et l'icone) à la modal
     });
   } catch (error) {
     console.log(
@@ -262,6 +262,7 @@ async function displayWorksModal() {
 
 // Fonction pour supprimer un projet
 async function deleteWorks(workId) {
+  const adminToken = sessionStorage.getItem("token");
   
   try {
     if (window.confirm("Êtes vous sûr de vouloir effacer ce projet?")) {
@@ -285,23 +286,43 @@ async function deleteWorks(workId) {
   };
 };
 
-// Sélectionnez le bouton "Ajouter une photo"
-const ajouterPhotoBtn = document.getElementById("ajouterPhotoBtn");
+// Sélectionnez la galerie photo et le bouton "Ajouter une photo"
+const galleryModal = document.querySelector(".gallery-modal");
+const addPhotoModal = document.querySelector(".add-photo-modal");
 
-//  un gestionnaire d'événements au clic sur le bouton "Ajouter une photo"
-ajouterPhotoBtn.addEventListener("click", function (e) {
+// Ajoutez un gestionnaire d'événements au clic sur le bouton "Ajouter une photo"
+document.getElementById("ajouterPhotoBtn").addEventListener("click", function (e) {
   e.preventDefault(); // Empêche le comportement par défaut du lien
-
-  // Sélectionnez la galerie photo et le bouton "Ajouter une photo"
-  const galleryModal = document.querySelector(".gallery-modal");
-  const addPhotoModal = document.querySelector(".add-photo-modal");
 
   // Changez le titre de la modal
   const galleryTitle = document.querySelector(".gallery-title");
   galleryTitle.innerText = "Ajout photo";
 
-  // Cachez le bouton "Ajouter une photo"
-  addPhotoModal.style.display = "none";
   // Videz la modal
   galleryModal.innerHTML = "";
+
+  // Créez l'icône de retour
+  const backGallery = document.createElement("i");
+  backGallery.classList.add("fa-solid", "fa-arrow-left", "back-icon");
+  backGallery.style.visibility = "visible";
+
+  // Ajoutez un gestionnaire d'événements pour le clic sur l'icône de retour
+  backGallery.addEventListener("click", function () {
+    // Restaurez le contenu de la galerie en appelant la fonction displayWorksModal()
+    displayWorksModal();
+    galleryModal.style.display = "block";
+    addPhotoModal.style.display = "none";
+  });
+
+  // Ajoutez l'icône de retour à la modal
+  galleryModal.appendChild(backGallery);
+
+  // Cachez le bouton "Ajouter une photo"
+  addPhotoModal.style.display = "none";
+
+  // Affichez la galerie modal
+  galleryModal.style.display = "block";
 });
+
+
+
