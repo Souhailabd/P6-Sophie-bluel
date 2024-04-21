@@ -1,13 +1,14 @@
 /////////////////////////////////////// Sélection des éléments HTML pertinents/////////////////////////////////////////////////////////////////////////////
+const admintoken = sessionStorage.getItem("token"); // Récupère le token de l'administrateur depuis le sessionStorage
 const gallery = document.querySelector(".gallery"); // Sélectionne la galerie d'images
 const filtres = document.querySelector(".filtres"); // Sélectionne les filtres de catégorie
-const admintoken = sessionStorage.getItem("token"); // Récupère le token de l'administrateur depuis le sessionStorage
+
 
 const modalContent1 = document.querySelector(".modalContent1");
 const modalContent2 = document.querySelector(".modalContent2");
 const backGallery = document.querySelector(".arrowLeft");
 const addPhotoModal = document.querySelector(".add-photo-modal");
-const adminToken = sessionStorage.getItem("token");
+
 
 async function main() {
   await displayWorks(); // Affiche les projets
@@ -213,6 +214,20 @@ const closeModal = function (e) {
     .querySelector(".js-modal-stop")
     .removeEventListener("click", stopPropagation);
   modal = null;
+  // Réinitialisation des champs du formulaire
+  document.getElementById("photoInput").value = ""; 
+  document.getElementById("title").value = ""; 
+  document.getElementById("category").selectedIndex = 0; 
+
+  // Afficher le texte par défaut pour le champ de sélection de fichier
+  document.querySelector(".photoInputTxt").classList.remove("hidden");
+  // Afficher le bouton pour le champ de sélection de fichier
+  document.querySelector(".btnPhotoInput").classList.remove("hidden");
+  // Cacher le message d'erreur pour le champ de sélection de fichier
+  document.querySelector(".errorImg").classList.add("hidden");
+  // Réinitialiser l'image de prévisualisation
+  document.getElementById("previewImage").src = "";
+
 };
 const focusInModal = function (e) {
   e.preventDefault();
@@ -273,7 +288,7 @@ async function displayWorksModal() {
 
       deleteIcon.setAttribute("aria-hidden", "true");
       deleteIcon.addEventListener("click", async () => {
-        await deleteWorks(works.id); // Supprime le projet en fonction de son ID dans la base de données
+        await deleteWorks(works.id,); // Supprime le projet en fonction de son ID dans la base de données
         displayWorksModal(); // Rafraîchit la modal après la suppression
       });
       container.appendChild(deleteIcon); //  l'icone de suppression au conteneur
@@ -288,11 +303,12 @@ async function displayWorksModal() {
 }
 
 // Fonction pour supprimer un projet
-async function deleteWorks(workId) {
+async function deleteWorks(workId,) {
   const adminToken = sessionStorage.getItem("token");
+  
 
   try {
-    if (window.confirm("Êtes vous sûr de vouloir effacer ce projet?")) {
+    if (window.confirm("Êtes-vous sûr de vouloir effacer ce projet?")) {
       let response = await fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
         headers: {
@@ -303,7 +319,7 @@ async function deleteWorks(workId) {
 
       if (response.ok) {
         console.log("Projet supprimé avec succès.");
-        displayWorks();
+        displayWorksModal(); // Rafraîchir la modal après la suppression
       } else if (response.status === 401) {
         console.error("Non autorisé à effectuer cette action.");
       }
@@ -311,7 +327,10 @@ async function deleteWorks(workId) {
   } catch (error) {
     console.error("Erreur lors de la requête:", error);
   }
+
+
 }
+
 
 // Tableau des options avec leurs valeurs et textes correspondants
 const options = [
@@ -359,49 +378,36 @@ document.addEventListener("DOMContentLoaded", function () {
       btnPhotoInput.classList.add("hidden");
     }
   });
+} );
 
-  formModal.addEventListener("submit", async function (event) {
-    event.preventDefault();
+  // Fonction pour gérer la soumission du formulaire
+formModal.addEventListener("submit", async function (event) {
+  event.preventDefault(); // Empêche le rafraîchissement de la page par défaut
+  
+  const formData = new FormData(formModal);
+  const adminToken = sessionStorage.getItem("token");
 
-    const formData = new FormData(formModal);
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${adminToken}`,
+      },
+    });
 
-    try {
-      const response = await fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
-        },
-      });
-
-      if (response.ok) {
-        // Gérer la réponse du serveur, rafraîchir la galerie
-        displayWorks(); //  rafraîchir la galerie d'images après l'ajout d'une nouvelle photo
-
-        // Une fois le projet envoyé, retour à la modale étape 1
-        if (response.status === 201) {
-          const step = 1;
-          stepUpdate(step);
-          const img = document.querySelector(".add-photo-modal img");
-          const photoInput = document.getElementById("photoInput");
-          const editionDOM = document.querySelector(
-            ".modalContent1 .gallery-modal"
-          );
-          const galleryDOM = document.querySelector(".gallery");
-
-          img.src = "";
-          photoInput.value = "";
-          editionDOM.innerHTML = "";
-          galleryDOM.innerHTML = "";
-          displayWorksModal();
-        }
-      } else {
-        console.error("Erreur lors de l'ajout de la photo:", response.status);
-      }
-    } catch (error) {
-      console.error("Erreur lors de la requête:", error);
+    if (response.ok) {
+      // Gérer la réponse du serveur, rafraîchir la galerie
+      displayWorks(); // Rafraîchir la galerie d'images après l'ajout d'une nouvelle photo
+      // Reste du code pour gérer la réponse réussie
+    } else {
+      console.error("Erreur lors de l'ajout de la photo:", response.status);
+      // Gérer les erreurs de requête ici
     }
-  });
+  } catch (error) {
+    console.error("Erreur lors de la requête:", error);
+    // Gérer les erreurs ici
+  }
 });
 
 // Si tous les champs sont remplis alors le bouton devient vert et cliquable
