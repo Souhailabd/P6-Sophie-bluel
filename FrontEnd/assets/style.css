@@ -91,6 +91,7 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -105,17 +106,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -123,10 +128,12 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 /** end reset css**/
 body {
   max-width: 1140px;
@@ -134,11 +141,13 @@ body {
   font-family: "Work Sans";
   font-size: 14px;
 }
+
 header {
   display: flex;
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }
@@ -152,7 +161,7 @@ h1 {
   color: #b1663c;
 }
 
-h1 > span {
+h1>span {
   font-family: "Work Sans";
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -164,11 +173,13 @@ h2 {
   font-size: 30px;
   color: #1d6154;
 }
+
 nav ul {
   display: flex;
   align-items: center;
   list-style-type: none;
 }
+
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
@@ -177,13 +188,16 @@ nav li {
 li:hover {
   color: #b1663c;
 }
+
 #introduction {
   display: flex;
   align-items: center;
 }
+
 #introduction figure {
   flex: 1;
 }
+
 #introduction img {
   display: block;
   margin: auto;
@@ -193,6 +207,7 @@ li:hover {
 #introduction article {
   flex: 1;
 }
+
 #introduction h2 {
   margin-bottom: 1em;
 }
@@ -200,10 +215,12 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
   text-align: center;
   margin-bottom: 1em;
 }
+
 .gallery {
   width: 100%;
   display: grid;
@@ -215,16 +232,20 @@ li:hover {
 .gallery img {
   width: 100%;
 }
+
 #contact {
   width: 50%;
   margin: auto;
 }
-#contact > * {
+
+#contact>* {
   text-align: center;
 }
+
 #contact h2 {
   margin-bottom: 20px;
 }
+
 #contact form {
   text-align: left;
   margin-top: 30px;
@@ -238,9 +259,11 @@ li:hover {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label {
   margin: 2em 0 1em 0;
 }
+
 #contact textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -449,6 +472,7 @@ button[buttonId="3"] {
   flex-direction: column;
   justify-content: space-between;
 }
+
 #ajouterPhotoBtn {
   border-radius: 60px;
   background: #1d6154;
@@ -473,6 +497,7 @@ button[buttonId="3"] {
   color: #000;
   text-align: center;
 }
+
 .add-photo-modal {
   display: flex;
   justify-content: center;
@@ -502,6 +527,7 @@ button[buttonId="3"] {
   grid-gap: 15px;
   margin-bottom: 60px;
 }
+
 .gallery-modal img {
   width: 100%;
   height: auto;
@@ -511,6 +537,7 @@ button[buttonId="3"] {
   position: relative;
   display: inline-block;
 }
+
 .image-container img {
   display: block;
   max-width: 100%;
@@ -534,6 +561,7 @@ button[buttonId="3"] {
   width: 13%;
   height: 10%;
 }
+
 .back-icon {
   position: absolute;
   top: 20px;
@@ -651,6 +679,13 @@ button[buttonId="3"] {
   align-items: center;
 }
 
+.formLabel,
+.formSize {
+  display: block;
+  margin-bottom: 10px;
+  /* Ajoutez un espacement entre chaque élément */
+}
+
 .formSize {
   height: 50px;
   width: 420px;
@@ -658,7 +693,6 @@ button[buttonId="3"] {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-
 
 .formLabel {
   margin: 2em 0 1em 0;
@@ -668,6 +702,7 @@ button[buttonId="3"] {
   text-align: left;
   padding-left: 34%;
 }
+
 
 #photoInput {
   display: none;
@@ -690,8 +725,10 @@ button[buttonId="3"] {
 }
 
 #buttonValidate.active {
-  background-color: #1D6154; /* Couleur de fond du bouton lorsque tous les champs sont remplis */
-  cursor: pointer; /* Curseur actif lorsque tous les champs sont remplis */
+  background-color: #1D6154;
+  /* Couleur de fond du bouton lorsque tous les champs sont remplis */
+  cursor: pointer;
+  /* Curseur actif lorsque tous les champs sont remplis */
 }
 
 
@@ -733,6 +770,7 @@ button[buttonId="3"] {
   z-index: 999;
   align-items: center;
 }
+
 .hidden {
   display: none;
 }

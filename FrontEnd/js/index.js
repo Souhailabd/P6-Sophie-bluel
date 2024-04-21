@@ -13,12 +13,11 @@ async function main() {
   await displayWorks(); // Affiche les projets
   displayFiltres(); // Affiche les filtres de catégorie
   admin();
-  }
-  
+}
+
 main(); // Appelle la fonction principale
 
 // Affichage des projets
-
 
 //////////////////////////////////////////////////////////// Fonction pour récupérer les projets depuis l'API//////////////////////////////////////////////////////////
 async function getWorks() {
@@ -251,8 +250,6 @@ const openModal = function (e) {
 
 // Fonction pour générer le contenu de la modal avec les projets récupérés
 async function displayWorksModal() {
-  
-
   try {
     const dataWorks = await getWorks(); // Récupère les projets
     const galleryModal = document.querySelector(".gallery-modal"); // Sélectionne le contenu de la modal
@@ -339,7 +336,7 @@ options.forEach((option) => {
 document.addEventListener("DOMContentLoaded", function () {
   const previewImage = document.getElementById("previewImage");
   const addPhotoContainer = document.querySelector(".addPhoto");
-  const photoInput = document.getElementById("photoInput"); 
+  const photoInput = document.getElementById("photoInput");
   const photoInputTxt = document.querySelector(".photoInputTxt");
   const errorImg = document.querySelector(".errorImg");
   const btnPhotoInput = document.querySelector(".btnPhotoInput");
@@ -369,51 +366,51 @@ document.addEventListener("DOMContentLoaded", function () {
     const formData = new FormData(formModal);
 
     try {
-        const response = await fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            body: formData,
-            headers: {
-                Authorization: `Bearer ${adminToken}`, 
-            },
-        });
+      const response = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+        },
+      });
 
-        if (response.ok) {
-            // Gérer la réponse du serveur, rafraîchir la galerie
-            displayWorks(); //  rafraîchir la galerie d'images après l'ajout d'une nouvelle photo
-        
-            // Une fois le projet envoyé, retour à la modale étape 1
-            if (response.status === 201) {
-                const step = 1;
-                stepUpdate(step);
-                const img = document.querySelector('.add-photo-modal img');
-                const photoInput = document.getElementById("photoInput");
-                const editionDOM = document.querySelector(".modalContent1 .gallery-modal");
-                const galleryDOM = document.querySelector(".gallery");
-        
-                img.src = "";
-                photoInput.value = "";
-                editionDOM.innerHTML = "";
-                galleryDOM.innerHTML = "";
-                displayWorksModal();
-                
-            }
-        } else {
-            console.error("Erreur lors de l'ajout de la photo:", response.status)
+      if (response.ok) {
+        // Gérer la réponse du serveur, rafraîchir la galerie
+        displayWorks(); //  rafraîchir la galerie d'images après l'ajout d'une nouvelle photo
+
+        // Une fois le projet envoyé, retour à la modale étape 1
+        if (response.status === 201) {
+          const step = 1;
+          stepUpdate(step);
+          const img = document.querySelector(".add-photo-modal img");
+          const photoInput = document.getElementById("photoInput");
+          const editionDOM = document.querySelector(
+            ".modalContent1 .gallery-modal"
+          );
+          const galleryDOM = document.querySelector(".gallery");
+
+          img.src = "";
+          photoInput.value = "";
+          editionDOM.innerHTML = "";
+          galleryDOM.innerHTML = "";
+          displayWorksModal();
         }
+      } else {
+        console.error("Erreur lors de l'ajout de la photo:", response.status);
+      }
     } catch (error) {
-        console.error("Erreur lors de la requête:", error);
+      console.error("Erreur lors de la requête:", error);
     }
+  });
 });
-});
-
 
 // Si tous les champs sont remplis alors le bouton devient vert et cliquable
 
-document.addEventListener('DOMContentLoaded', function() {
-  const photoInput = document.getElementById('photoInput');
-  const titleInput = document.getElementById('title');
-  const categoryInput = document.getElementById('category');
-  const btnValidate = document.getElementById('buttonValidate');
+document.addEventListener("DOMContentLoaded", function () {
+  const photoInput = document.getElementById("photoInput");
+  const titleInput = document.getElementById("title");
+  const categoryInput = document.getElementById("category");
+  const btnValidate = document.getElementById("buttonValidate");
 
   // Fonction pour vérifier si tous les champs sont remplis
   function checkFields() {
@@ -423,29 +420,24 @@ document.addEventListener('DOMContentLoaded', function() {
   // Fonction pour activer ou désactiver le bouton en fonction de l'état des champs remplis
   function toggleButton() {
     if (checkFields()) {
-      btnValidate.classList.add('active'); // Ajoute la classe active si tous les champs sont remplis
+      btnValidate.classList.add("active"); // Ajoute la classe active si tous les champs sont remplis
     } else {
-      btnValidate.classList.remove('active'); // Supprime la classe active si au moins un champ est vide
+      btnValidate.classList.remove("active"); // Supprime la classe active si au moins un champ est vide
     }
   }
 
   ////des écouteurs d'événements pour surveiller les changements dans les champs
-  photoInput.addEventListener('input', toggleButton);
-  titleInput.addEventListener('input', toggleButton);
-  categoryInput.addEventListener('change', toggleButton);
+  photoInput.addEventListener("input", toggleButton);
+  titleInput.addEventListener("input", toggleButton);
+  categoryInput.addEventListener("change", toggleButton);
 });
 
-
-  // affichage de l'image dans la console
-  photoInput.addEventListener('change', function (e) {
-      console.log(this.files[0]);
-      const reader = new FileReader();
-      reader.onload = function (e) {
-          previewImage.src = e.target.result;
-      }
-      reader.readAsDataURL(this.files[0]);
-  });
-
-
-
-
+// affichage de l'image dans la console
+photoInput.addEventListener("change", function (e) {
+  console.log(this.files[0]);
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    previewImage.src = e.target.result;
+  };
+  reader.readAsDataURL(this.files[0]);
+});
