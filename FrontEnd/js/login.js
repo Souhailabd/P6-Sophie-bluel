@@ -41,7 +41,4 @@ async function login() {
     }
 }
 
-document.querySelector("form").addEventListener("submit", (e) => { // Modification de la cible de l'écouteur d'événement
-    e.preventDefault();
-    login();
-});
+
