@@ -487,10 +487,6 @@ button[buttonId="3"] {
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
-
 .gallery-title {
   margin: 30px 0 45px;
   font-family: "Work Sans";
@@ -514,7 +510,6 @@ button[buttonId="3"] {
 .image-container {
   position: relative;
   display: inline-block;
-  
 }
 .image-container img {
   display: block;
@@ -541,9 +536,196 @@ button[buttonId="3"] {
 }
 .back-icon {
   position: absolute;
-  top: 20px; 
-  left: 20px; 
-  z-index: 1000; 
-  cursor: pointer; 
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  cursor: pointer;
   font-size: 20px;
+}
+
+/*     **/
+
+.arrowLeft {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  left: 28px;
+  top: 20px;
+  cursor: pointer;
+}
+
+.modalContent1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent2 {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-modal {
+  font-family: Work Sans;
+  font-weight: 400;
+  font-size: 26px;
+  color: #000;
+}
+
+.galleryModal {
+  padding-top: 1em;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 30px 10px;
+}
+
+.galleryModal img {
+  width: 100%;
+}
+
+.galleryModal figure {
+  position: relative;
+}
+
+.line {
+  border-top: 1px solid #b3b3b3;
+  margin-top: 55px;
+  margin-bottom: 35px;
+  width: 420px;
+}
+
+.buttonModal {
+  height: 36px;
+  font-size: 1.2em;
+  border: transparent;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  font-family: "Syne";
+  font-weight: 700;
+  color: white;
+  background-color: #1d6154;
+  width: 237px;
+  text-align: center;
+  border-radius: 60px;
+  cursor: pointer;
+  margin-bottom: 27px;
+}
+
+.addPhoto {
+  width: 420px;
+  height: 169px;
+  border-radius: 3px;
+  background-color: #e8f1f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.logoPhoto {
+  font-size: 63px;
+  color: #b9c5cc;
+}
+
+.btnPhotoInput {
+  color: #306685;
+  background-color: #cbd6dc;
+  border-radius: 50px;
+  padding: 10px 33px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.photoInputTxt {
+  font-size: 10px;
+}
+
+#formModal {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formSize {
+  height: 50px;
+  width: 420px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.formLabel {
+  margin: 2em 0 1em 0;
+  font-weight: 600;
+  color: #3d3d3d;
+  width: 100%;
+  text-align: left;
+  padding-left: 34%;
+}
+
+#photoInput {
+  display: none;
+}
+
+#buttonValidate {
+  font-family: 'Syne';
+    font-weight: 700;
+    width: 18vw;
+    color: white;
+    background-color:  #a7a7a7;
+    margin: 2em auto;
+    padding: 0 20px;
+    border-radius: 60px;
+    height: 36px;
+    font-size: 1em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    cursor: not-allowed;
+}
+
+
+
+.imageFile {
+  height: 169px;
+  object-fit: contain;
+}
+
+.iconDelete {
+  position: absolute;
+  display: none;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
+
+.errorImg {
+  color: red;
+}
+
+/*.hidden{
+    display: none;
+  }
+  .show{
+    display: block;
+  }*/
+
+.addPhoto {
+  position: relative;
+}
+
+#previewImage {
+  position: absolute;
+  width: 30%;
+  height: auto;
+  max-height: 100%;
+  z-index: 999;
+  align-items: center;
+}
+.hidden {
+  display: none;
 }
