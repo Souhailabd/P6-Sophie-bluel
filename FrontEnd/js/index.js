@@ -384,6 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Une fois le projet envoyé, retour à la modale étape 1
             if (response.status === 201) {
                 const step = 1;
+                stepUpdate(step);
                 const img = document.querySelector('.add-photo-modal img');
                 const photoInput = document.getElementById("photoInput");
                 const editionDOM = document.querySelector(".modalContent1 .gallery-modal");
@@ -393,8 +394,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 photoInput.value = "";
                 editionDOM.innerHTML = "";
                 galleryDOM.innerHTML = "";
-        
-                stepUpdate(step);
+                displayWorksModal();
+                
             }
         } else {
             console.error("Erreur lors de l'ajout de la photo:", response.status)
@@ -406,27 +407,36 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
+// Si tous les champs sont remplis alors le bouton devient vert et cliquable
 
 document.addEventListener('DOMContentLoaded', function() {
   const photoInput = document.getElementById('photoInput');
-  const btnPhotoInput = document.querySelector('.btnPhotoInput');
-  const previewImage = document.getElementById('previewImage');
+  const titleInput = document.getElementById('title');
+  const categoryInput = document.getElementById('category');
+  const btnValidate = document.getElementById('buttonValidate');
 
-  // Gestionnaire d'événement pour les changements dans les champs du formulaire
-  photoInput.addEventListener('change', function () {
-      const checkValue = "#photoInput, #title, #category";
-      const allFilled = checkValue.split(', ').every(selector => {
-          return document.querySelector(selector).value;
-      });
-      if (allFilled) {
-          btnPhotoInput.removeAttribute('disabled');
-      } else {
-          btnPhotoInput.setAttribute('disabled', 'disabled');
-      }
-  });
+  // Fonction pour vérifier si tous les champs sont remplis
+  function checkFields() {
+    return photoInput.value && titleInput.value && categoryInput.value;
+  }
 
-  // Gestionnaire d'événement pour l'ajout d'une image
+  // Fonction pour activer ou désactiver le bouton en fonction de l'état des champs remplis
+  function toggleButton() {
+    if (checkFields()) {
+      btnValidate.classList.add('active'); // Ajoute la classe active si tous les champs sont remplis
+    } else {
+      btnValidate.classList.remove('active'); // Supprime la classe active si au moins un champ est vide
+    }
+  }
+
+  ////des écouteurs d'événements pour surveiller les changements dans les champs
+  photoInput.addEventListener('input', toggleButton);
+  titleInput.addEventListener('input', toggleButton);
+  categoryInput.addEventListener('change', toggleButton);
+});
+
+
+  // affichage de l'image dans la console
   photoInput.addEventListener('change', function (e) {
       console.log(this.files[0]);
       const reader = new FileReader();
@@ -435,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       reader.readAsDataURL(this.files[0]);
   });
-});
+
 
 
 
