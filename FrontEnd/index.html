@@ -12,7 +12,10 @@
     />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
   </head>
   <body>
     <header>
@@ -53,34 +56,76 @@
         </article>
       </section>
       <section id="portfolio">
-		<div class="portfolio-header">
-        <h2>Mes Projets</h2>
-		<div class="portfolio-edit"></div>
-	</div>
+        <div class="portfolio-header">
+          <h2>Mes Projets</h2>
+          <div class="portfolio-edit"></div>
+        </div>
 
-	<!-- Ajoutez cette section à l'intérieur de votre body -->
-	<aside
-	id="modal1"
-	class="modal"
-	aria-hidden="true"
-	role="modal"
-	aria-modal="false"
-	style="display: none"
-  >
-	<div class="modal-wrapper js-modal-stop">
-	  <i class="fa-solid fa-xmark js-modal-close"></i>
-	  <div class="modal-header">
-		<h3 class="gallery-title">Galerie photo</h3>
-	  </div>
-	  <div class="gallery-modal"></div>
-	 
-        <div class="add-photo-modal">
-			<button id="ajouterPhotoBtn">Ajouter une photo</button>
-		  </div>
-		</div>
-  </aside>
-	  
-  
+        <!-- Ajoutez cette section à l'intérieur de votre body -->
+        <aside
+          id="modal1"
+          class="modal"
+          aria-hidden="true"
+          role="modal"
+          aria-modal="false"
+          style="display: none"
+        >
+          <div class="modal-wrapper js-modal-stop">
+            <i class="fa-solid fa-xmark js-modal-close"></i>
+
+            <!--PARTIE 1 Gallery Photo-->
+            <div class="modalContent1">
+              <div class="modal-header">
+                <h3 class="gallery-title">Galerie photo</h3>
+              </div>
+              <div class="gallery-modal"></div>
+
+              <div class="add-photo-modal">
+                <button id="ajouterPhotoBtn">Ajouter une photo</button>
+              </div>
+            </div>
+
+            <!--PARTIE 2 form Add Work-->
+            <div class="modalContent2">
+              <button class="arrowLeft">
+                <i class="fa-solid fa-arrow-left fa-xl"></i>
+              </button>
+              <h2 class="title-modal">Ajout photo</h2>
+              <form
+                action="#"
+                method="post"
+                enctype="multipart/form-data"
+                id="formModal"
+              >
+                <div class="addPhoto">
+                  <i class="fa-regular fa-image logoPhoto"></i>
+                  <label for="photoInput" class="btnPhotoInput"
+                    >+ Ajouter photo</label
+                  >
+                  <input
+                    type="file"
+                    id="photoInput"
+                    name="image"
+                    accept=".png, .jpeg"
+                  />
+                  <img id="previewImage" />
+                  <p class="photoInputTxt">jpg, png : 4mo max</p>
+                  <p class="errorImg"></p>
+                </div>
+
+                <label for="title" class="formLabel">Titre</label>
+                <input type="text" id="title" name="title" class="formSize" />
+                <label for="category" class="formLabel"> Catégorie</label>
+                <select id="category" name="category" class="formSize">
+                  <option value="">Veuillez sélectionner une catégorie</option>
+                </select>
+                <div class="line"></div>
+                <button type="submit" id="buttonValidate">Valider</button>
+              </form>
+            </div>
+          </div>
+        </aside>
+
         <div class="filtres">
           <button class="filterButton filterButtonActive">Tous</button>
         </div>
