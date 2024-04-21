@@ -1,17 +1,26 @@
+/////////////////////////////////////// Sélection des éléments HTML pertinents/////////////////////////////////////////////////////////////////////////////
 const gallery = document.querySelector(".gallery"); // Sélectionne la galerie d'images
 const filtres = document.querySelector(".filtres"); // Sélectionne les filtres de catégorie
 const admintoken = sessionStorage.getItem("token"); // Récupère le token de l'administrateur depuis le sessionStorage
+
+const modalContent1 = document.querySelector(".modalContent1");
+const modalContent2 = document.querySelector(".modalContent2");
+const backGallery = document.querySelector(".arrowLeft");
+const addPhotoModal = document.querySelector(".add-photo-modal");
+const adminToken = sessionStorage.getItem("token");
 
 async function main() {
   await displayWorks(); // Affiche les projets
   displayFiltres(); // Affiche les filtres de catégorie
   admin();
-}
+  }
+  
 main(); // Appelle la fonction principale
 
 // Affichage des projets
 
-// Fonction pour récupérer les projets depuis l'API
+
+//////////////////////////////////////////////////////////// Fonction pour récupérer les projets depuis l'API//////////////////////////////////////////////////////////
 async function getWorks() {
   try {
     const worksResponse = await fetch("http://localhost:5678/api/works");
@@ -25,7 +34,7 @@ async function getWorks() {
     );
   }
 }
-// Fonction pour afficher les projets
+/////////////////////////////////////////////////////////////////////// Fonction pour afficher les projets//////////////////////////////////////////////////////////////
 async function displayWorks(categorieId) {
   try {
     const dataworks = await getWorks();
@@ -41,7 +50,7 @@ async function displayWorks(categorieId) {
   }
 }
 
-// Fonction pour créer un élément pour chaque projet
+///////////////////////////////////////////////////////////////////// Fonction pour créer un élément pour chaque projet///////////////////////////////////////////////
 function createWorks(works) {
   const figure = document.createElement("figure");
   const img = document.createElement("img");
@@ -56,7 +65,7 @@ function createWorks(works) {
   gallery.appendChild(figure);
 }
 
-// Fonction pour récupérer les catégories depuis l'API
+///////////////////////////////////////////////////////////////// Fonction pour récupérer les catégories depuis l'API///////////////////////////////////////////////////
 async function getCategories() {
   try {
     const categoriesResponse = await fetch(
@@ -68,7 +77,7 @@ async function getCategories() {
   }
 }
 
-// Fonction pour afficher les filtres de catégorie
+//////////////////////////////////////////////////////////// Fonction pour afficher les filtres de catégorie//////////////////////////////////////////////////////////
 async function displayFiltres() {
   const dataCategories = await getCategories();
 
@@ -93,14 +102,13 @@ async function displayFiltres() {
   });
 }
 
-// Fonction pour vérifier si l'utilisateur est un administrateur
+///////////////////////////////////////////////////////////////// Fonction pour vérifier si l'utilisateur est un administrateur///////////////////////////////////////
 function admin() {
   if (admintoken) {
     logout(); // Déconnexion si l'utilisateur est administrateur
     adminDisplay(); // Affichage du mode édition
     gestionModal();
     displayWorksModal();
-   
   }
 }
 
@@ -158,26 +166,39 @@ function gestionModal() {
   conntainerBtnModify.appendChild(btnModify);
 
   conntainerBtnModify.addEventListener("click", openModal);
+
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+      closeModal(e);
+    }
+    if (e.key === "Tab" && Modal !== null) {
+      focusInModal(e);
+    }
+  });
+
+  /////////////////////////////////////////Sélectionnez la galerie photo et le bouton "Ajouter une photo" //////////////////////////////////////////////////////
+
+  // Ajoutez un gestionnaire d'événements au clic sur le bouton "Ajouter une photo"
+  document
+    .getElementById("ajouterPhotoBtn")
+    .addEventListener("click", function (e) {
+      e.preventDefault(); // Empêche le comportement par défaut du lien
+      modalContent1.style.display = "none";
+      modalContent2.style.display = "block";
+    });
+
+  // Ajoutez un gestionnaire d'événements pour le clic sur l'icône de retour
+  backGallery.addEventListener("click", function (e) {
+    // Restaurez le contenu de la galerie en appelant la fonction displayWorksModal()
+    e.preventDefault();
+    modalContent1.style.display = "block";
+    modalContent2.style.display = "none";
+  });
 }
 
 let modal = null;
 const focusableSelector = "button, a, input, textarea, img";
 let focusElements = [];
-
-const openModal = function (e) {
-  e.preventDefault();
-  modal = document.querySelector(e.target.getAttribute("href"));
-  focusElements = Array.from(modal.querySelectorAll(focusableSelector));
-  modal.style.display = null;
-  modal.removeAttribute("aria-hidden");
-  modal.setAttribute("aria-modal", "true");
-  modal.addEventListener("click", closeModal);
-  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
-  modal
-    .querySelector(".js-modal-stop")
-    .addEventListener("click", stopPropagation);
-  // Affiche les projets dans la modal lorsque celle-ci est ouverte
-};
 
 const closeModal = function (e) {
   if (modal === null) return;
@@ -210,17 +231,28 @@ const stopPropagation = function (e) {
   e.stopPropagation();
 };
 
-window.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" || e.key === "Esc") {
-    closeModal(e);
-  }
-  if (e.key === "Tab" && Modal !== null) {
-    focusInModal(e);
-  }
-});
+const openModal = function (e) {
+  e.preventDefault();
+  modal = document.querySelector(e.target.getAttribute("href"));
+  focusElements = Array.from(modal.querySelectorAll(focusableSelector));
+  modal.style.display = null;
+  modal.removeAttribute("aria-hidden");
+  modal.setAttribute("aria-modal", "true");
+  modal.addEventListener("click", closeModal);
+  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
+  modal
+    .querySelector(".js-modal-stop")
+    .addEventListener("click", stopPropagation);
+  // Affiche les projets dans la modal lorsque celle-ci est ouverte
+
+  modalContent1.style.display = "block";
+  modalContent2.style.display = "none";
+};
 
 // Fonction pour générer le contenu de la modal avec les projets récupérés
 async function displayWorksModal() {
+  
+
   try {
     const dataWorks = await getWorks(); // Récupère les projets
     const galleryModal = document.querySelector(".gallery-modal"); // Sélectionne le contenu de la modal
@@ -258,12 +290,10 @@ async function displayWorksModal() {
   }
 }
 
-
-
 // Fonction pour supprimer un projet
 async function deleteWorks(workId) {
   const adminToken = sessionStorage.getItem("token");
-  
+
   try {
     if (window.confirm("Êtes vous sûr de vouloir effacer ce projet?")) {
       let response = await fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -283,45 +313,128 @@ async function deleteWorks(workId) {
     }
   } catch (error) {
     console.error("Erreur lors de la requête:", error);
-  };
-};
+  }
+}
 
-// Sélectionnez la galerie photo et le bouton "Ajouter une photo"
-const galleryModal = document.querySelector(".gallery-modal");
-const addPhotoModal = document.querySelector(".add-photo-modal");
+// Tableau des options avec leurs valeurs et textes correspondants
+const options = [
+  { value: "1", text: "Objets" },
+  { value: "2", text: "Appartements" },
+  { value: "3", text: "Hotels & restaurants" },
+];
 
-// Ajoutez un gestionnaire d'événements au clic sur le bouton "Ajouter une photo"
-document.getElementById("ajouterPhotoBtn").addEventListener("click", function (e) {
-  e.preventDefault(); // Empêche le comportement par défaut du lien
+// Sélection de l'élément <select> par son ID
+const displayCategoryWorks = document.getElementById("category");
 
-  // Changez le titre de la modal
-  const galleryTitle = document.querySelector(".gallery-title");
-  galleryTitle.innerText = "Ajout photo";
+//  des options à l'élément <select> en utilisant une boucle
+options.forEach((option) => {
+  const optionElement = document.createElement("option");
+  optionElement.value = option.value;
+  optionElement.textContent = option.text;
+  displayCategoryWorks.appendChild(optionElement);
+});
 
-  // Videz la modal
-  galleryModal.innerHTML = "";
+//  Récuperation des éléments du formulaire
 
-  // Créez l'icône de retour
-  const backGallery = document.createElement("i");
-  backGallery.classList.add("fa-solid", "fa-arrow-left", "back-icon");
-  backGallery.style.visibility = "visible";
+document.addEventListener("DOMContentLoaded", function () {
+  const previewImage = document.getElementById("previewImage");
+  const addPhotoContainer = document.querySelector(".addPhoto");
+  const photoInput = document.getElementById("photoInput"); 
+  const photoInputTxt = document.querySelector(".photoInputTxt");
+  const errorImg = document.querySelector(".errorImg");
+  const btnPhotoInput = document.querySelector(".btnPhotoInput");
 
-  // Ajoutez un gestionnaire d'événements pour le clic sur l'icône de retour
-  backGallery.addEventListener("click", function () {
-    // Restaurez le contenu de la galerie en appelant la fonction displayWorksModal()
-    displayWorksModal();
-    galleryModal.style.display = "block";
-    addPhotoModal.style.display = "none";
+  // Ajoutez un gestionnaire d'événements pour écouter les changements sur le champ d'entrée de type fichier
+  photoInput.addEventListener("change", function (event) {
+    const file = event.target.files[0]; // Récupérez le fichier sélectionné par l'utilisateur
+    if (file) {
+      const reader = new FileReader(); // Utilisez FileReader pour lire le contenu du fichier
+      reader.onload = function (e) {
+        // Gérez l'événement onload pour afficher l'image dans un élément de prévisualisation
+        previewImage.src = e.target.result;
+      };
+      reader.readAsDataURL(file); // Lire le contenu du fichier en tant qu'URL de données
+      // Masquez le champ pour ajouter une photo une fois qu'une image est sélectionnée
+
+      // Cacher les autres éléments
+      photoInputTxt.classList.add("hidden");
+      errorImg.classList.add("hidden");
+      btnPhotoInput.classList.add("hidden");
+    }
   });
 
-  // Ajoutez l'icône de retour à la modal
-  galleryModal.appendChild(backGallery);
+  formModal.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-  // Cachez le bouton "Ajouter une photo"
-  addPhotoModal.style.display = "none";
+    const formData = new FormData(formModal);
 
-  // Affichez la galerie modal
-  galleryModal.style.display = "block";
+    try {
+        const response = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${adminToken}`, 
+            },
+        });
+
+        if (response.ok) {
+            // Gérer la réponse du serveur, rafraîchir la galerie
+            displayWorks(); //  rafraîchir la galerie d'images après l'ajout d'une nouvelle photo
+        
+            // Une fois le projet envoyé, retour à la modale étape 1
+            if (response.status === 201) {
+                const step = 1;
+                const img = document.querySelector('.add-photo-modal img');
+                const photoInput = document.getElementById("photoInput");
+                const editionDOM = document.querySelector(".modalContent1 .gallery-modal");
+                const galleryDOM = document.querySelector(".gallery");
+        
+                img.src = "";
+                photoInput.value = "";
+                editionDOM.innerHTML = "";
+                galleryDOM.innerHTML = "";
+        
+                stepUpdate(step);
+            }
+        } else {
+            console.error("Erreur lors de l'ajout de la photo:", response.status)
+        }
+    } catch (error) {
+        console.error("Erreur lors de la requête:", error);
+    }
+});
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const photoInput = document.getElementById('photoInput');
+  const btnPhotoInput = document.querySelector('.btnPhotoInput');
+  const previewImage = document.getElementById('previewImage');
+
+  // Gestionnaire d'événement pour les changements dans les champs du formulaire
+  photoInput.addEventListener('change', function () {
+      const checkValue = "#photoInput, #title, #category";
+      const allFilled = checkValue.split(', ').every(selector => {
+          return document.querySelector(selector).value;
+      });
+      if (allFilled) {
+          btnPhotoInput.removeAttribute('disabled');
+      } else {
+          btnPhotoInput.setAttribute('disabled', 'disabled');
+      }
+  });
+
+  // Gestionnaire d'événement pour l'ajout d'une image
+  photoInput.addEventListener('change', function (e) {
+      console.log(this.files[0]);
+      const reader = new FileReader();
+      reader.onload = function (e) {
+          previewImage.src = e.target.result;
+      }
+      reader.readAsDataURL(this.files[0]);
+  });
 });
 
 
