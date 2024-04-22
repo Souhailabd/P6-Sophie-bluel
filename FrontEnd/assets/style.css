@@ -751,12 +751,7 @@ button[buttonId="3"] {
   color: red;
 }
 
-/*.hidden{
-    display: none;
-  }
-  .show{
-    display: block;
-  }*/
+
 
 .addPhoto {
   position: relative;
@@ -766,9 +761,10 @@ button[buttonId="3"] {
   position: absolute;
   width: 30%;
   height: 100%;
-  max-height: 100%;
+ object-fit: contain;
   z-index: 999;
   align-items: center;
+  
 }
 
 .hidden {

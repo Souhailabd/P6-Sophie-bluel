@@ -195,11 +195,12 @@ function gestionModal() {
     modalContent2.style.display = "none";
   });
 }
+// Fonction pour réinitialiser l'état du bouton de validation
+
 
 let modal = null;
 const focusableSelector = "button, a, input, textarea, img";
 let focusElements = [];
-
 const closeModal = function (e) {
   if (modal === null) return;
   e.preventDefault();
@@ -227,8 +228,10 @@ const closeModal = function (e) {
   document.querySelector(".errorImg").classList.add("hidden");
   // Réinitialiser l'image de prévisualisation
   document.getElementById("previewImage").src = "";
+  
 
 };
+
 const focusInModal = function (e) {
   e.preventDefault();
   let index = focusElements.findIndex(
@@ -359,6 +362,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const photoInputTxt = document.querySelector(".photoInputTxt");
   const errorImg = document.querySelector(".errorImg");
   const btnPhotoInput = document.querySelector(".btnPhotoInput");
+  const iconElement = document.querySelector(".addPhoto .logoPhoto");
+
+
 
   // Ajoutez un gestionnaire d'événements pour écouter les changements sur le champ d'entrée de type fichier
   photoInput.addEventListener("change", function (event) {
@@ -376,6 +382,9 @@ document.addEventListener("DOMContentLoaded", function () {
       photoInputTxt.classList.add("hidden");
       errorImg.classList.add("hidden");
       btnPhotoInput.classList.add("hidden");
+      iconElement.style.visibility = "hidden";
+
+      
     }
   });
 } );
@@ -425,17 +434,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fonction pour activer ou désactiver le bouton en fonction de l'état des champs remplis
   function toggleButton() {
-    if (checkFields()) {
-      btnValidate.classList.add("active"); // Ajoute la classe active si tous les champs sont remplis
+    const allFilled = checkFields();
+    if (allFilled) {
+      btnValidate.classList.add("active");
+      btnValidate.removeAttribute("disabled");
     } else {
-      btnValidate.classList.remove("active"); // Supprime la classe active si au moins un champ est vide
+      btnValidate.classList.remove("active");
+      btnValidate.setAttribute("disabled", "disabled");
     }
   }
+  
 
   ////des écouteurs d'événements pour surveiller les changements dans les champs
   photoInput.addEventListener("input", toggleButton);
   titleInput.addEventListener("input", toggleButton);
   categoryInput.addEventListener("change", toggleButton);
+
+  toggleButton();
 });
 
 // affichage de l'image dans la console
