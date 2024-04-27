@@ -228,6 +228,9 @@ const closeModal = function (e) {
   document.querySelector(".errorImg").classList.add("hidden");
   // Réinitialiser l'image de prévisualisation
   document.getElementById("previewImage").src = "";
+
+
+
   
 
 };
