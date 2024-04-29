@@ -87,6 +87,14 @@ async function displayFiltres() {
     btnCategorie.classList.add("filterButton");
     btnCategorie.setAttribute("buttonId", category.id);
     filtres.appendChild(btnCategorie);
+
+    // Sélection de l'élément <select> par son ID
+    const displayCategoryWorks = document.getElementById("category");
+    // on remplit le select category
+    const optionElement = document.createElement("option");
+    optionElement.value = category.id;
+    optionElement.textContent = category.name;
+    displayCategoryWorks.appendChild(optionElement);
   });
 
   const buttons = document.querySelectorAll(".filtres button");
@@ -201,9 +209,8 @@ function gestionModal() {
 let modal = null;
 const focusableSelector = "button, a, input, textarea, img";
 let focusElements = [];
-const closeModal = function (e) {
+const closeModal = function () {
   if (modal === null) return;
-  e.preventDefault();
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
@@ -228,10 +235,12 @@ const closeModal = function (e) {
   document.querySelector(".errorImg").classList.add("hidden");
   // Réinitialiser l'image de prévisualisation
   document.getElementById("previewImage").src = "";
+  document.getElementById("previewImage").style.display = "none";
 
-
-
+  document.getElementById("buttonValidate").disabled = true
+  document.getElementById("buttonValidate").classList.remove("active");
   
+  document.querySelector(".logoPhoto").style.visibility ="";
 
 };
 
@@ -337,28 +346,9 @@ async function deleteWorks(workId,) {
 
 }
 
-
-// Tableau des options avec leurs valeurs et textes correspondants
-const options = [
-  { value: "1", text: "Objets" },
-  { value: "2", text: "Appartements" },
-  { value: "3", text: "Hotels & restaurants" },
-];
-
-// Sélection de l'élément <select> par son ID
-const displayCategoryWorks = document.getElementById("category");
-
-//  des options à l'élément <select> en utilisant une boucle
-options.forEach((option) => {
-  const optionElement = document.createElement("option");
-  optionElement.value = option.value;
-  optionElement.textContent = option.text;
-  displayCategoryWorks.appendChild(optionElement);
-});
-
-//  Récuperation des éléments du formulaire
-
-document.addEventListener("DOMContentLoaded", function () {
+  function initializeFormElements() {
+  //  Récuperation des éléments du formulaire
+  document.addEventListener("DOMContentLoaded", function () {
   const previewImage = document.getElementById("previewImage");
   const addPhotoContainer = document.querySelector(".addPhoto");
   const photoInput = document.getElementById("photoInput");
@@ -368,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const iconElement = document.querySelector(".addPhoto .logoPhoto");
 
 
-
+  
   // Ajoutez un gestionnaire d'événements pour écouter les changements sur le champ d'entrée de type fichier
   photoInput.addEventListener("change", function (event) {
     const file = event.target.files[0]; // Récupérez le fichier sélectionné par l'utilisateur
@@ -386,14 +376,18 @@ document.addEventListener("DOMContentLoaded", function () {
       errorImg.classList.add("hidden");
       btnPhotoInput.classList.add("hidden");
       iconElement.style.visibility = "hidden";
+      document.getElementById("previewImage").style.display = "block";
 
       
     }
   });
 } );
+  }
+  initializeFormElements();
 
+  function submitForm() {
   // Fonction pour gérer la soumission du formulaire
-formModal.addEventListener("submit", async function (event) {
+  formModal.addEventListener("submit", async function (event) {
   event.preventDefault(); // Empêche le rafraîchissement de la page par défaut
   
   const formData = new FormData(formModal);
@@ -411,6 +405,7 @@ formModal.addEventListener("submit", async function (event) {
     if (response.ok) {
       // Gérer la réponse du serveur, rafraîchir la galerie
       displayWorks(); // Rafraîchir la galerie d'images après l'ajout d'une nouvelle photo
+      closeModal();
       // Reste du code pour gérer la réponse réussie
     } else {
       console.error("Erreur lors de l'ajout de la photo:", response.status);
@@ -421,10 +416,12 @@ formModal.addEventListener("submit", async function (event) {
     // Gérer les erreurs ici
   }
 });
+  }
 
+  submitForm();
 // Si tous les champs sont remplis alors le bouton devient vert et cliquable
 
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
   const photoInput = document.getElementById("photoInput");
   const titleInput = document.getElementById("title");
   const categoryInput = document.getElementById("category");
